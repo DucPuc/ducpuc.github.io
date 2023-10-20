@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    transition: transform 1s;
+}
+
+#game-container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#word-to-type {
+    font-size: 24px;
+    color: black; /* Change text color to black */
+}
+
+#user-input {
+    font-size: 20px;
+    padding: 5px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.results {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.correct {
+    border: 2px solid green;
+    animation: correct 1s;
+}
+
+.mistyped {
+    border: 2px solid red;
+    animation: mistyped 1s;
+}
+
+@keyframes correct {
+    0% {
+        background-color: initial;
+    }
+    100% {
+        background-color: lightgreen;
+    }
+}
+
+@keyframes mistyped {
+    0% {
+        background-color: initial;
+    }
+    100% {
+        background-color: lightcoral;
+    }
+}
+
+@keyframes typeout {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#reminder-left, #reminder-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 5px;
+    animation: pulse 1s infinite;
+}
+
+#reminder-left {
+    left: 20px;
+}
+
+#reminder-right {
+    right: 20px;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
