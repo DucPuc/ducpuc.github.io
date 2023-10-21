@@ -1,74 +1,113 @@
+document.addEventListener("DOMContentLoaded", function () {
+    userInput.focus();
+    showNewWord();
+    
+    // Retrieve the player's name from local storage
+    const playerName = localStorage.getItem("playerName");
+    if (playerName) {
+        // Add the player's name to the online players section
+        const onlinePlayers = document.getElementById("onlinePlayers");
+        onlinePlayers.innerHTML += `<li>${playerName}</li>`;
+    }
+});
+
 const words = [
-    "apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew", "kiwi", "lemon",
-    "mango", "nectarine", "orange", "pear", "quince", "raspberry", "strawberry", "tangerine", "watermelon",
-    "blueberry", "blackberry", "apricot", "cranberry", "coconut", "grapefruit", "guava", "papaya", "pineapple",
-    "pomegranate", "rhubarb", "soursop", "starfruit", "boysenberry", "lychee", "kiwifruit", "persimmon", "dragonfruit",
-    "cantaloupe", "lime", "avocado", "mangosteen", "passionfruit", "plantain", "tomato", "cucumber", "eggplant",
+    "apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honey", "kiwi", "lemon",
+    "mango", "nectar", "orange", "pear", "quince", "berry", "straw", "tangerine", "melon",
+    "blue", "black", "apricot", "cranberry", "coconut", "fruit", "guava", "papaya", "pine",
+    "pomegranate", "rhubarb", "soursop", "star", "boysen", "lychee", "kiwifruit", "persimmon", "dragon",
+    "cantaloupe", "lime", "avocado", "mangosteen", "passionfruit", "plantain", "tomato", "cucumber", "egg",
     "zucchini", "broccoli", "cauliflower", "carrot", "celery", "spinach", "lettuce", "kale", "asparagus",
-    "beetroot", "potato", "sweetpotato", "bellpepper", "onion", "garlic", "ginger", "cabbage", "pumpkin", "squash",
+    "beetroot", "potato", "sweet", "bell", "onion", "garlic", "ginger", "cabbage", "pumpkin", "squash",
     "cayenne", "chili", "horseradish", "jalapeno", "mustard", "wasabi", "radish", "thyme", "oregano", "parsley",
     "coriander", "basil", "rosemary", "lavender", "sage", "peppermint", "spearmint", "lemongrass", "dill", "marjoram",
     "cinnamon", "nutmeg", "cloves", "turmeric", "vanilla", "cardamom", "cumin", "paprika", "saffron", "anise",
     "fennel", "sesame", "poppy", "sunflower", "chamomile", "echinacea", "ginseng", "valerian", "chocolate", "vanilla",
-    "coffee", "espresso", "cappuccino", "latte", "mocha", "americano", "macchiato", "caramel", "frappuccino",
-    "espresso", "muffin", "croissant", "bagel", "pancake", "waffle", "crepe", "oatmeal", "cereal", "yogurt",
-    "granola", "omelette", "quiche", "scramble", "frittata", "sushi", "sashimi", "tempura", "ramen", "udon",
-    "soba", "teriyaki", "tempura", "wasabi", "kimchi", "sauerkraut", "coleslaw", "guacamole", "hummus", "tzatziki",
-    "tapenade", "pesto", "salsa", "tahini", "sourdough", "ciabatta", "baguette", "pita", "brioche", "naan",
-    "tortilla", "focaccia", "rye", "pumpernickel", "matzah", "croissant", "bagel", "pretzel", "danish", "muffin",
-    "scone", "eclair", "cupcake", "brownie", "cannoli", "macaron", "mousse", "sorbet", "gelato", "sherbet",
-    "flan", "trifle", "parfait", "cheesecake", "tiramisu", "panna cotta", "cobbler", "strudel", "pavlova", "eclair",
-    "mousse", "torte", "poundcake", "sundae", "crepe", "pie", "milkshake", "smoothie", "slushie", "punch", "cider",
-    "eggnog", "cocktail", "mocktail", "whiskey", "vodka", "rum", "tequila", "gin", "brandy", "wine", "champagne",
-    "sunflower", "dandelion", "rose", "tulip", "lavender", "iris", "daisy", "orchid", "lily", "carnation",
-    "ocean", "river", "lake", "pond", "waterfall", "stream", "beach", "desert", "mountain", "canyon",
-    "elephant", "lion", "tiger", "giraffe", "cheetah", "hippopotamus", "rhinoceros", "kangaroo", "koala", "panda",
-    "guitar", "piano", "violin", "trumpet", "saxophone", "drum", "flute", "harmonica", "banjo", "accordion",
-    "book", "magazine", "newspaper", "dictionary", "novel", "poetry", "biography", "autobiography", "science", "history",
-    "computer", "internet", "software", "hardware", "programming", "database", "algorithm", "network", "keyboard", "mouse",
-    "car", "bicycle", "motorcycle", "bus", "train", "airplane", "boat", "submarine", "rocket", "helicopter",
-    "cat", "dog", "rabbit", "hamster", "parrot", "goldfish", "turtle", "guinea pig", "horse", "ferret",
-    "star", "moon", "planet", "galaxy", "nebula", "comet", "asteroid", "telescope", "astronaut", "spaceship",
     "coffee", "tea", "juice", "soda", "water", "milk", "smoothie", "cocktail", "cappuccino", "espresso",
     "shirt", "pants", "dress", "jacket", "shoes", "hat", "socks", "gloves", "scarf", "umbrella",
-    "football", "basketball", "soccer", "tennis", "volleyball", "baseball", "hockey", "golf", "swimming", "cycling",
-    "apple", "banana", "grape", "strawberry", "orange", "lemon", "blueberry", "pineapple", "mango", "kiwi",
-    "pizza", "hamburger", "spaghetti", "sushi", "taco", "sandwich", "salad", "ice cream", "cake", "chocolate",
+    "football", "basket", "soccer", "tennis", "volley", "base", "hockey", "golf", "swimming", "cycling",
+    "apple", "banana", "grape", "straw", "orange", "lemon", "blue", "pine", "mango", "kiwi",
+    "pizza", "burger", "pasta", "sushi", "taco", "sandwich", "salad", "ice", "cake", "choco",
     "movie", "music", "art", "book", "dance", "theater", "poetry", "comedy", "drama", "opera",
-    "beach", "mountain", "forest", "desert", "lake", "river", "waterfall", "cave", "island", "countryside",
-    "ocean", "sky", "clouds", "rain", "sunshine", "moonlight", "stars", "thunderstorm", "rainbow", "fog",
-    "technology", "innovation", "communication", "programming", "education", "environment", "exploration", "adventure", "creativity", "curiosity",
-    "celebration", "anniversary", "happiness", "friendship", "kindness", "gratitude", "compassion", "inspiration", "motivation", "imagination",
-    "chocolate", "vanilla", "strawberry", "caramel", "blueberry", "raspberry", "peppermint", "cinnamon", "mocha", "espresso",
-    "laughter", "smile", "joy", "love", "hug", "kiss", "family", "togetherness", "serenity", "tranquility",
-    "ocean", "mountain", "meadow", "rainforest", "waterfall", "volcano", "desert", "canyon", "archipelago", "aurora",
-    "universe", "cosmos", "galaxy", "planetarium", "astronomer", "telescope", "spacesuit", "exploration", "adventure", "frontier",
-    "novel", "poetry", "biography", "fantasy", "mystery", "adventure", "romance", "comedy", "history", "philosophy",
-    "winter", "spring", "summer", "autumn", "blossom", "breeze", "sunshine", "rainbow", "starlight", "twilight",
-    "friendship", "loyalty", "trust", "respect", "cooperation", "equality", "community", "diversity", "inclusion", "harmony",
+    "beach", "mountain", "forest", "desert", "lake", "river", "water", "cave", "island", "country",
+    "ocean", "sky", "cloud", "rain", "sun", "moon", "star", "thunder", "rainbow", "fog",
+    "tech", "innovate", "communicate", "program", "educate", "enviro", "explore", "adventure", "create", "curious",
+    "celebrate", "anniversary", "happy", "friend", "kind", "grateful", "compassion", "inspire", "motivate", "imagine",
+    "choco", "vanilla", "straw", "caramel", "blue", "rasp", "pepper", "cinnamon", "mocha", "espresso",
+    "laugh", "smile", "joy", "love", "hug", "kiss", "family", "together", "serene", "tranquil",
+    "ocean", "mountain", "meadow", "rain", "waterfall", "volcano", "desert", "canyon", "arch", "aurora",
+    "universe", "cosmos", "galaxy", "planet", "astronomy", "scope", "explore", "adventure", "front", "novel",
+    "poem", "bio", "fantasy", "mystery", "adventure", "romance", "comedy", "history", "phil", "winter",
+    "spring", "summer", "autumn", "blossom", "breeze", "sun", "rainbow", "star", "twilight",
+    "friend", "loyal", "trust", "respect", "cooperate", "equal", "commune", "diverse", "include", "harmony",
     "piano", "violin", "guitar", "trumpet", "flute", "clarinet", "harmonica", "accordion", "xylophone", "tambourine",
-    "paradise", "nirvana", "utopia", "heaven", "serenity", "tranquility", "bliss", "euphoria", "ecstasy", "happiness",
-    "serendipity", "perpendicular", "phenomenal", "exquisite", "flabbergasted", "quizzical", "juxtaposition", "unbelievable", "unforgettable", "spontaneity",
-    "extraordinary", "kaleidoscope", "mellifluous", "serenity", "silhouette", "effervescent", "whimsical", "elaborate", "onomatopoeia", "incredible",
-    "entrepreneur", "surreptitious", "discombobulate", "antidisestablishmentarianism", "supercalifragilisticexpialidocious", "hippopotomonstrosesquipedaliophobia", "pneumonoultramicroscopicsilicovolcanoconiosis", "floccinaucinihilipilification", "sesquipedalian", "gobbledygook", "lackadaisical",
-    "sophistication", "capricious", "ebullient", "ephemeral", "resplendent", "transcendent", "mesmerizing", "invigorating", "breathtaking", "unbelievable",
+    "paradise", "nirvana", "utopia", "heaven", "serene", "tranquil", "bliss", "euphoria", "ecstasy", "happy",
+    "serendipity", "perpendicular", "phenomenal", "exquisite", "amazed", "quizzical", "juxtaposition", "amazing", "spontaneous", "extraordinary",
+    "start", "sneaky", "sophistication", "capricious", "ebullient", "ephemeral", "resplendent", "transcendent", "mesmerizing", "invigorating", "breathtaking", "amazing",
+    "communicate", "collaborate", "innovate", "imagine", "inspire", "motivate", "persevere", "determine", "dedicate", "succeed",
+    "wander", "adventure", "explore", "discover", "curious", "wonder", "awe", "spectacular", "unforgettable", "remarkable",
+    "grateful", "appreciate", "thankful", "benevolent", "generous", "compassionate", "empathy", "forgive", "friend", "together",
+    "celebrate", "festive", "rejoice", "happy", "jubilant", "enthusiastic", "exhilarate", "euphoric", "bliss", "ecstasy",
+    "serene", "tranquil", "calm", "peaceful", "still", "meditate", "relax", "harmony", "balance", "well",
+    "mesmerize", "spellbind", "enchant", "enrapture", "captivate", "fascinate", "enchant", "enrapture", "absorb", "bewitch",
+    "orchestrate", "compose", "arrange", "improvise", "symphony", "sonata", "concerto", "operetta", "concert", "recital", "poppy", "sunflower", "chamomile", "echinacea", "ginseng", "valerian", "chocolate", "vanilla",
+    "coffee", "tea", "juice", "soda", "water", "milk", "smoothie", "cocktail", "cappuccino", "espresso",
+    "shirt", "pants", "dress", "jacket", "shoes", "hat", "socks", "gloves", "scarf", "umbrella",
+    "football", "basket", "soccer", "tennis", "volley", "base", "hockey", "golf", "swimming", "cycling",
+    "apple", "banana", "grape", "straw", "orange", "lemon", "blue", "pine", "mango", "kiwi",
+    "pizza", "burger", "pasta", "sushi", "taco", "sandwich", "salad", "ice", "cake", "choco",
+    "movie", "music", "art", "book", "dance", "theater", "poetry", "comedy", "drama", "opera",
+    "beach", "mountain", "forest", "desert", "lake", "river", "water", "cave", "island", "country",
+    "ocean", "sky", "cloud", "rain", "sun", "moon", "star", "thunder", "rainbow", "fog",
+    "tech", "innovate", "communicate", "program", "educate", "enviro", "explore", "adventure", "create", "curious",
+    "celebrate", "anniversary", "happy", "friend", "kind", "grateful", "compassion", "inspire", "motivate", "imagine",
+    "choco", "vanilla", "straw", "caramel", "blue", "rasp", "pepper", "cinnamon", "mocha", "espresso",
+    "laugh", "smile", "joy", "love", "hug", "kiss", "family", "together", "serene", "tranquil",
+    "ocean", "mountain", "meadow", "rain", "waterfall", "volcano", "desert", "canyon", "arch", "aurora",
+    "universe", "cosmos", "galaxy", "planet", "astronomy", "scope", "explore", "adventure", "front", "novel",
+    "poem", "bio", "fantasy", "mystery", "adventure", "romance", "comedy", "history", "phil", "winter",
+    "spring", "summer", "autumn", "blossom", "breeze", "sun", "rainbow", "star", "twilight",
+    "friend", "loyal", "trust", "respect", "cooperate", "equal", "commune", "diverse", "include", "harmony",
+    "piano", "violin", "guitar", "trumpet", "flute", "clarinet", "harmonica", "accordion", "xylophone", "tambourine",
+    "paradise", "nirvana", "utopia", "heaven", "serene", "tranquil", "bliss", "euphoria", "ecstasy", "happy",
+    "serendipity", "perpendicular", "phenomenal", "exquisite", "amazed", "quizzical", "juxtaposition", "amazing", "spontaneous", "extraordinary",
+    "start", "sneaky", "sophistication", "capricious", "ebullient", "ephemeral", "resplendent", "transcendent", "mesmerizing", "invigorating", "breathtaking", "amazing",
+    "communicate", "collaborate", "innovate", "imagine", "inspire", "motivate", "persevere", "determine", "dedicate", "succeed",
+    "wander", "adventure", "explore", "discover", "curious", "wonder", "awe", "spectacular", "unforgettable", "remarkable",
+    "grateful", "appreciate", "thankful", "benevolent", "generous", "compassionate", "empathy", "forgive", "friend", "together",
+    "celebrate", "festive", "rejoice", "happy", "jubilant", "enthusiastic", "exhilarate", "euphoric", "bliss", "ecstasy",
+    "serene", "tranquil", "calm", "peaceful", "still", "meditate", "relax", "harmony", "balance", "well",
+    "mesmerize", "spellbind", "enchant", "enrapture", "captivate", "fascinate", "enchant", "enrapture", "absorb", "bewitch",
+    "orchestrate", "compose", "arrange", "improvise", "symphony", "sonata", "concerto", "operetta", "concert", "recital", 
+    "microphone", "speaker", "acoustic", "electric", "keyboard", "guitarist", "drummer", "vocalist", "melody", "harmony", 
+    "lyrics", "amplifier", "beat", "chorus", "composition", "entertainment", "rhythm", "enthusiastic", "incredible", "passionate", 
+    "audience", "perform", "musical", "genre", "talent", "instrument", "jam", "symphony", "inspiration", "acoustic",
+    "lyrical", "solo", "acoustic", "piano", "violin", "guitar", "trumpet", "flute", "clarinet", "harmonica", "accordion", "xylophone",
+    "tambourine", "paradise", "nirvana", "utopia", "heaven", "serene", "tranquil", "bliss", "euphoria", "ecstasy", "happy",
+    "serendipity", "perpendicular", "phenomenal", "exquisite", "amazed", "quizzical", "juxtaposition", "amazing", "spontaneous", "extraordinary",
+    "start", "sneaky", "sophistication", "capricious", "ebullient", "ephemeral", "resplendent", "transcendent", "mesmerizing", "invigorating", "breathtaking", "amazing",
     "communication", "collaboration", "innovation", "imagination", "inspiration", "motivation", "perseverance", "determination", "dedication", "success",
     "wanderlust", "adventure", "exploration", "discovery", "curiosity", "wonderment", "awe-inspiring", "spectacular", "unforgettable", "remarkable",
     "gratitude", "appreciation", "thankfulness", "benevolence", "generosity", "compassion", "empathy", "forgiveness", "friendship", "togetherness",
     "celebration", "festivity", "rejoicing", "happiness", "jubilation", "enthusiasm", "exhilaration", "euphoria", "bliss", "ecstasy",
     "serenity", "tranquility", "calmness", "peacefulness", "stillness", "meditation", "relaxation", "harmony", "balance", "well-being",
     "mesmerizing", "spellbinding", "entrancing", "captivating", "engrossing", "fascinating", "enchanting", "enrapturing", "absorbing", "bewitching",
-    "orchestration", "composition", "arrangement", "improvisation", "symphony", "sonata", "concerto", "operetta", "concert", "recital"
+    "orchestration", "composition", "arrangement", "improvisation", "symphony", "sonata", "concerto", "operetta", "concert", "recital", 
+    "microphone", "speaker", "acoustic", "electric", "keyboard", "guitarist", "drummer", "vocalist", "melody", "harmony", 
+    "lyrics", "amplifier", "beat", "chorus", "composition", "entertainment", "rhythm", "enthusiastic", "incredible", "passionate", 
+    "audience", "perform", "musical", "genre", "talent", "instrument", "jam", "symphony", "inspiration", "acoustic",
+    "lyrical", "solo", "acoustic"
         // Add more words here
-    ];
+];
 
-let currentWordIndex = 0;
-let typedWords = 0;
+
+    let currentWordIndex = 0;
 let currentStreak = 0;
-let bestStreak = 0;
-let streakTitle = "Newbie";
 let startTime;
 let currentWord;
+let processingEnter = false; // Flag to prevent multiple Enter key presses
+
+const userInput = document.getElementById("user-input"); // Declare userInput here
 
 function getRandomWord() {
     return words[Math.floor(Math.random() * words.length)];
@@ -76,85 +115,139 @@ function getRandomWord() {
 
 function showNewWord() {
     const wordToType = document.getElementById("word-to-type");
-    const userInput = document.getElementById("user-input");
-    userInput.value = "";
+    userInput.value = ""; // No need to redeclare userInput
     currentWord = getRandomWord();
     wordToType.innerText = currentWord;
     userInput.focus();
-    wordToType.style.color = "black"; // Change text color to black
+    wordToType.style.color = "black";
+    wordToType.style.userSelect = "none"; // Make the word unselectable
     showStreak();
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const userInput = document.getElementById("user-input");
     userInput.focus(); // Set focus to the input field when the page is loaded
+    showNewWord(); // Show the initial word
 });
 
 function checkWord(event) {
-    event.preventDefault(); // Prevent default behavior of the Enter key
-    const userInput = document.getElementById("user-input");
+    if (processingEnter) {
+        return;
+    }
+
     if (event.key === "Enter") {
+        processingEnter = true;
         if (userInput.value === currentWord) {
-            typedWords++;
             currentStreak++;
             userInput.classList.add("correct");
             setTimeout(() => {
                 userInput.classList.remove("correct");
                 showNewWord();
-                updateStreak();
+                processingEnter = false;
             }, 1000);
         } else {
             userInput.classList.add("mistyped");
+            currentStreak = 0; // Reset the streak on mistype
+            showStreak();
             setTimeout(() => {
                 userInput.classList.remove("mistyped");
                 showNewWord();
-                updateStreak();
+                processingEnter = false;
             }, 1000);
         }
     }
 }
 
-function updateStreak() {
-    if (currentStreak >= 50) {
-        streakTitle = "Legend";
-    } else if (currentStreak >= 30) {
-        streakTitle = "Insane";
-    } else if (currentStreak >= 20) {
-        streakTitle = "Awesome";
-    } else if (currentStreak >= 10) {
-        streakTitle = "Impressive";
-    }
-
-    showStreak();
-}
 
 function showStreak() {
     const streakElement = document.getElementById("streak");
-    streakElement.textContent = `Streak: ${currentStreak} (${streakTitle})`;
-}
-
-function endGame() {
-    const endTime = new Date();
-    const elapsedTime = (endTime - startTime) / 1000;
-    const wpm = Math.round((typedWords / elapsedTime) * 60);
-    document.getElementById("wpm").innerText = wpm;
+    streakElement.textContent = `Streak: ${currentStreak}`;
 }
 
 function newGame() {
-    typedWords = 0;
-    document.getElementById("user-input").value = "";
-    document.getElementById("wpm").innerText = "0";
-    startGame();
+    currentStreak = 0;
+    userInput.value = "";
+    showNewWord(); // Start a new game by showing the first word
 }
 
 // Add event listeners
-const userInput = document.getElementById("user-input");
 userInput.addEventListener("keydown", checkWord);
 document.getElementById("new-game-btn").addEventListener("click", newGame);
 
-function startGame() {
-    showNewWord();
-    startTime = new Date();
+    
+    function startGame() {
+        showNewWord();
+        startTime = new Date();
+    }
+    
+    startGame();
+
+// Define an array to store leaderboard data
+const leaderboardData = [];
+let currentPlayerName; // Variable to store the current player's name
+
+function updateLeaderboard() {
+    // Sort leaderboard data by streak in descending order
+    leaderboardData.sort((a, b) => b.streak - a.streak);
+
+    const leaderboardElement = document.getElementById("leaderboard");
+    leaderboardElement.innerHTML = "";
+
+    // Display the top 10 players on the leaderboard
+    leaderboardData.slice(0, 10).forEach((entry, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${entry.playerName}: ${entry.streak}`;
+        leaderboardElement.appendChild(li);
+    });
 }
 
-startGame();
+function addToLeaderboard(playerName, streak) {
+    // Check if the player's name already exists in the leaderboard
+    const existingEntry = leaderboardData.find((entry) => entry.playerName === playerName);
+
+    if (existingEntry) {
+        // Update the streak if the player already exists
+        existingEntry.streak = streak;
+    } else {
+        // Add a new entry if the player doesn't exist
+        leaderboardData.push({ playerName, streak });
+    }
+
+    updateLeaderboard();
+}
+
+function addOnlinePlayer(playerName) {
+    // Check if the player's name already exists in the online players list
+    const onlinePlayers = document.getElementById("onlinePlayers");
+    if (!Array.from(onlinePlayers.children).some((li) => li.textContent === playerName)) {
+        const li = document.createElement("li");
+        li.textContent = playerName;
+        onlinePlayers.appendChild(li);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    userInput.focus();
+    showNewWord();
+
+    // Retrieve the player's name from local storage
+    currentPlayerName = localStorage.getItem("playerName");
+
+    if (currentPlayerName) {
+        // Add the player to the online players
+        addOnlinePlayer(currentPlayerName);
+    }
+
+    // Event listener for "Enter" key to update the leaderboard
+    userInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            // Get the current streak
+            const currentStreak = parseInt(document.getElementById("streak").textContent.split(" ")[1]);
+
+            if (!isNaN(currentStreak)) {
+                // Update the leaderboard if there's a streak
+                addToLeaderboard(currentPlayerName, currentStreak + 1); // Increment streak by 1
+            }
+        }
+    });
+});
+    
